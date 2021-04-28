@@ -17,7 +17,7 @@
 </head>
 <body>
 	<h1>내용</h1>
-	<div><%=request.getParameter("no") %>></div>
+	<div><%=request.getParameter("no") %></div>
 	
 	<div>
 		<form action="/del" method="post">

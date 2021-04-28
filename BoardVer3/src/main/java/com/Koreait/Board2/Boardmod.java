@@ -1,4 +1,4 @@
-package com.Koreait.board;
+package com.Koreait.Board2;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,35 +8,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/write")
-public class BoardWriteServlet extends HttpServlet {
+@WebServlet("/mod")
+public class Boardmod extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
 		
-		String jsp = "/WEB-INF/jsp/write.jsp";
+		String no = request.getParameter("no");
+		request.setAttribute("data", Database.db.get(Integer.parseInt(no)));
+		
+		String jsp = "WEB-INF/jsp/mod.jsp";
 		request.getRequestDispatcher(jsp).forward(request, response);
-		
-	}
+}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-		String title = request.getParameter("title");//jsp에서의 받은 값을 빼어낼때 request.getParameter 
+		
+		String no = request.getParameter("no");
+		String title = request.getParameter("title");
 		String ctnt = request.getParameter("ctnt");
 		
-		BoardVO vo = new BoardVO();
+		BoardVO vo = Database.db.get(Integer.parseInt(no));
 		
-		vo.setTitle(title);
 		vo.setCtnt(ctnt);
+		vo.setTitle(title);
 		
-		Database.list.add(vo);
-		
-		response.sendRedirect("/list");
-		
+		response.sendRedirect("/detail?no="+no);
 	}
 
 }
