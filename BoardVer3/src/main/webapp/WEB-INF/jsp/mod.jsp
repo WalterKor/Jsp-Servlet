@@ -11,7 +11,7 @@
 	<h1>글수정</h1>
 		<form action="/mod" method="post">
 			<input type="hidden" name="no" value="${param.no}">
-		 	<div>
+		 <div>
 	 		제목 : <input type="text" name="title" value="${data.getTitle()}">
 	 	</div>
 	 	
