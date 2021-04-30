@@ -30,7 +30,11 @@ public class BoardwriteServlet3 extends HttpServlet {
 		
 		BoardVO3 vo = new BoardVO3();
 		vo.setTitle(title);
-		vo.setCtnt(ctnt);
+		vo.setCtnt(ctnt); //이렇게 객체를 받은걸
+		
+		
+		BoardDAO.insertBoard(vo);//굳이 객체화를 할 필요가 없다. //static으로 했기때문에 굳이 객체화를 할 필요가 없다.
+		response.sendRedirect("/list3");//서블릿에서 서블릿으로 
 		
 		
 		
