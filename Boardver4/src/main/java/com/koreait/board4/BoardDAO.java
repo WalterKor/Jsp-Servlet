@@ -52,8 +52,8 @@ public class BoardDAO {
 			
 			
 		
-		String sql =" SELECT iboard,title,regdt FROM t_board ";//ctnt는 티테일에 들어가서 사용하는거라
-		
+		String sql =" SELECT iboard,title,regdt FROM t_board "//ctnt는 티테일에 들어가서 사용하는거라
+					+ " ORDER BY iboard DESC ";//잘 모르면 양쪽 다 주자 
 		
 		try {
 			
@@ -93,26 +93,118 @@ public class BoardDAO {
 		
 	}
 	
+	public static BoardVO3 selBoard(int iboard) {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM t_board WHERE iboard = ?";
+		
+		try {
+			con = DBUtils.getCon();			
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, iboard);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {				
+				BoardVO3 vo = new BoardVO3();
+				
+				String title = rs.getString("title");
+				String ctnt = rs.getString("ctnt");
+				String regdt = rs.getString("regdt");
+				
+				vo.setIboard(iboard);				
+				vo.setTitle(title);
+				vo.setCtnt(ctnt);
+				vo.setRegdt(regdt);
+				
+				return vo;
+			}
+			
+		} catch (Exception e) {			
+			e.printStackTrace();
+		} finally {
+			DBUtils.close(con, ps, rs);
+		}
+		return null;
+	}
 	
+
 	
+	public static void delBoard(BoardVO3 param) {
+		
 	
+		Connection con = null; 
+		PreparedStatement ps = null;
+		
+		String sql = "DELETE FROM t_board WHERE iboard = ? ";
+				
+		try {
+			
+			con = DBUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, param.getIboard()); 
+					
+			
+			ps.executeUpdate();
+			
+			 
+									  			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(con, ps); //꼭 닫아줘야한다 사용하고 아니면 서버 다운
+		}
+				
+			
+	}
+
 	
+
+	public static int  modBoard(BoardVO3 param) {
+		
+
+		
+		Connection con = null; 
+		PreparedStatement ps = null;
+		
+		String sql = " UPDATE t_board "
+				+" SET title = ? , ctnt = ? "
+				+" WHERE iboard = ? ";
+				
+		try {
+			
+			con = DBUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, param.getTitle()); 
+			ps.setString(2, param.getCtnt());
+			ps.setInt(3, param.getIboard());
+			
+			
+			ps.executeUpdate(); 
+									   
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(con, ps);
+		}
+		
 	
+		return 0;
+	}
+
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
 	
 	
 }

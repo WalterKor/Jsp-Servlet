@@ -1,4 +1,4 @@
-package com.koreait.board4;
+package com.Korea.Board;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,29 +7,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet("/detail3")
-public class BoardDetailServlet3 extends HttpServlet {
+@WebServlet("/del")
+public class deleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String iboard = request.getParameter("iboard");		
-		System.out.println("iboard : " + iboard);
-		
+	
+		String iboard=request.getParameter("iboard");
 		int intIboard = Integer.parseInt(iboard);
 		
-		BoardVO3 data = BoardDAO.selBoard(intIboard);
+		BoardVO param = new BoardVO();
+		param.setIboard(intIboard);
 		
-		request.setAttribute("data", data);
+		DAO.delBoard(param);
+		response.sendRedirect("/list");
 		
-		String jsp = "/WEB-INF/view/detail3.jsp";
-		request.getRequestDispatcher(jsp).forward(request, response);
 		
 	}
 
-	
 
 }
