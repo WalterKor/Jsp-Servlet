@@ -85,6 +85,7 @@ function makeCmtElemList(data) {
 	
 	
 	data.forEach(function(item) {
+		
 		var trElemCtnt = document.createElement('tr');
 		var tdElem1 = document.createElement('td');
 		var tdElem2 = document.createElement('td');
