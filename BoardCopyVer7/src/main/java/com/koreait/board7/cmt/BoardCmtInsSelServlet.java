@@ -17,31 +17,29 @@ import com.koreait.board7.MyUtils;
 public class BoardCmtInsSelServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      
-	//리스트로 뿌리기
+	//리스트
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
 		int iboard = MyUtils.getParamInt("iboard", request);
+		System.out.println("iboard : " + iboard);
+		
 		BoardCmtEntity param = new BoardCmtEntity();
 		param.setIboard(iboard);
-		List<BoardCmtDomian> list = BoardCmtDAO.selBoardCmtList(param);
 		
+		List<BoardCmtDomian> list = BoardCmtDAO.selBoardCmtList(param);		
 		Gson gson = new Gson();
 		String json = gson.toJson(list);
+		System.out.println("json : " + json);
 		
+		response.setCharacterEncoding("UTF-8");
 		response.getWriter()
 		.append(json);
-		
-		
 	}
-
+	
 	//등록
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		int iboard = MyUtils.getParamInt("iboard", request);
 		String cmt = request.getParameter("cmt");
 		int iuser = MyUtils.getLoginUserPk(request);
-		
 		
 		BoardCmtEntity param = new BoardCmtEntity();
 		param.setIboard(iboard);
@@ -49,14 +47,17 @@ public class BoardCmtInsSelServlet extends HttpServlet {
 		param.setIuser(iuser);
 		
 		int result = BoardCmtDAO.insBoardCmt(param);
-
+		
 		response.getWriter()
 		.append("{")
-		.append("\"result\" : ")
+		.append("\"result\":")
 		.append(String.valueOf(result))
 		.append("}")
 		.flush();
 		
+		//{"result":1}
 	}
 
 }
+
+
