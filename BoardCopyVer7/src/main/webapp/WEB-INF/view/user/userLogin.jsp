@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <div>${requestScope.errMsg}</div>
-<form action="login" method="post">
+<form action="login" method="post" onkeyup="e">
 	<div><input type="text" name="uid" placeholder="id"></div>
 	<div><input type="password" name="upw" placeholder="password"></div>
 	<div>

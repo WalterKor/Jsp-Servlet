@@ -1,6 +1,6 @@
 var cmtFrmElem = document.querySelector('#cmtFrm');
 var cmtListElem = document.querySelector('#cmtList');
-
+var cmtModModalElem = document.querySelector('#modal');
 
 
 
@@ -102,11 +102,26 @@ function makeCmtElemList(data) {
 			
 			delBtn.innerText = '삭제';
 			modBtn.innerText = '수정';
+			//삭제 confrim 삭제와 취소버튼에 관련한거 
 			
 			delBtn.addEventListener('click' , function(){
 				//closer
-				delAjax(item.icmt);
+				
+				if(confirm('삭제하시겠습니까')){
+					delAjax(item.icmt);					
+				}
+				
 			});
+			
+			//수정버튼 클릭시 
+			modBtn.addEventListener('click', function(){
+				//댓글 수정 모달창 띄우기
+				openModModal(item);
+				
+				
+			});
+			
+			
 			
 			tdElem4.append(delBtn);
 			tdElem4.append(modBtn);
@@ -119,6 +134,7 @@ function makeCmtElemList(data) {
 		
 		tableElem.append(trElemCtnt);
 	});
+
 
 	function delAjax(icmt){
 		//Promise객체라서 사용하기위해서
@@ -146,6 +162,58 @@ function makeCmtElemList(data) {
 		
 }
 
+function modAjax(){
+	
+	var cmtModFrmElem = document.querySelector('#cmtModFrm');
+	
+	var param = {
+		icmt : cmtModFrmElem.icmt.value,
+		cmt : cmtModFrmElem.cmt.value,
+	}
+		const init = {
+		method: 'POST',				
+	    body: new URLSearchParams(param)
+	};
+	
+	
+	fetch('cmtDelUpd', init)
+	.then(function(res) {
+		return res.json();
+	})
+	.then(function(myJson) {
+		switch(myJson.result) {
+			case 0:
+				alert('등록 실패!');
+			break;
+			case 1:
+				cmtFrmElem.cmt.value = '';
+				
+				getListAjax();
+				closeModModal();
+			break;
+		}		
+	});
+	
+}
+
+
+
+
+function openModModal({icmt, cmt}){
+	
+	cmtModModalElem.className = '';
+	var cmtModFrmElem = document.querySelector('#cmtModFrm');
+	console.log('icmt : '+icmt);
+	console.log('cmt : '+cmt);
+	
+	cmtModFrmElem.icmt.value = icmt;
+	cmtModFrmElem.cmt.value = cmt;
+	
+}
+
+function closeModModal(){
+	cmtModModalElem.className = 'displayNone';
+}
 
 getListAjax(); //이 파일이 임포트되면 함수 1회 호출!
 

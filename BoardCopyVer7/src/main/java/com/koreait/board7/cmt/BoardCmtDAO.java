@@ -95,6 +95,30 @@ public class BoardCmtDAO {
 			
 		
 	}
+
+	public static int updateCmt(BoardCmtDomian bo) {
+		int result = 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		String sql =" UPDATE t_board_cmt SET cmt = ? WHERE icmt = ? AND iuser = ? ";
+		
+		try {			
+			con = DBUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, bo.getCmt());
+			ps.setInt(2, bo.getIcmt());
+			ps.setInt(3, bo.getIuser());
+			
+			result = ps.executeUpdate();
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.close(con, ps);
+		}return result;
+	
+	}
 	
 	
 	

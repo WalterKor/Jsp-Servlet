@@ -38,7 +38,35 @@ public class BoardCmtDelUpd extends HttpServlet {
 
 	//댓글 수정
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
+		int iuser = MyUtils.getLoginUserPk(request);
+		int icmt = MyUtils.getParamInt("icmt", request);
+		String cmt = request.getParameter("cmt");
+		
+		
+		
+		System.out.println("icmt : " +icmt);
+		System.out.println("cmt : " +cmt);
+		
+		BoardCmtDomian bo = new BoardCmtDomian();
+		bo.setIcmt(icmt);
+		bo.setCmt(cmt);
+		bo.setIuser(iuser);
+		
+		//수정 성공 1 아니면 0
+		int result = BoardCmtDAO.updateCmt(bo);
+		
+		response.getWriter()
+		.append("{")
+		.append("\"result\":")
+		.append(String.valueOf(result))
+		.append("}")
+		.flush();
+		
+		
+		
+		
+		
 	}
 
 }

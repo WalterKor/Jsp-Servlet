@@ -21,3 +21,4 @@ header nav ul li { margin-left: 20px; }
 .colorRed{ color: red; }
 section{ padding-left: 40px; 
 	padding-right: 40px}	
+.displayNone{ display: none !important; }
